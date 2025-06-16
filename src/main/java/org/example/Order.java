@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
+    private static final double DEFAULT_DISCOUNT_RATE = 0.1;
+
     private Client client;
     private List<Item> items = new ArrayList<>();
-    private double discountRate = 0.1;
+    private double discountRate = DEFAULT_DISCOUNT_RATE;
 
     public Order(Client client) {
         this.client = client;
