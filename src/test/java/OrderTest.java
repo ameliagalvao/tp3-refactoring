@@ -1,3 +1,4 @@
+import org.example.Client;
 import org.junit.jupiter.api.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,36 +23,28 @@ class OrderTest {
 
     @Test
     void deveImprimirNotaFiscalCorretamente() {
-        Order order = new Order();
-        order.clientName = "João";
-        order.clientEmail = "joao@email.com";
-        order.products.add("Notebook");
-        order.quantities.add(1);
-        order.prices.add(3500.0);
-        order.products.add("Mouse");
-        order.quantities.add(2);
-        order.prices.add(80.0);
-
+        Client client = new Client("João", "joao@email.com");
+        Order order = new Order(client);
+        order.addItem("Notebook", 1, 3500.0);
+        order.addItem("Mouse", 2, 80.0);
         order.printInvoice();
-
         String output = outContent.toString().trim();
-
-        assertTrue(output.contains("Cliente: João"));
-        assertTrue(output.contains("1x Notebook - R$3500.0"));
-        assertTrue(output.contains("2x Mouse - R$80.0"));
-        assertTrue(output.contains("Subtotal: R$3660.0"));
-        assertTrue(output.contains("Desconto: R$366.0"));
-        assertTrue(output.contains("Total final: R$3294.0"));
+        String expectedOutput = String.join(System.lineSeparator(),
+                "Cliente: João",
+                "1x Notebook - R$3500.00",
+                "2x Mouse - R$80.00",
+                "Subtotal: R$3660.00",
+                "Desconto: R$366.00",
+                "Total final: R$3294.00"
+        );
+        assertEquals(expectedOutput, output);
     }
 
     @Test
     void deveEnviarEmailCorretamente() {
-        Order order = new Order();
-        order.clientName = "João";
-        order.clientEmail = "joao@email.com";
-
+        Client client = new Client("João", "joao@email.com");
+        Order order = new Order(client);
         order.sendEmail();
-
         String output = outContent.toString().trim();
         assertTrue(output.contains("Enviando e-mail para joao@email.com"));
         assertTrue(output.contains("Pedido recebido! Obrigado pela compra."));
