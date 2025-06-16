@@ -6,9 +6,9 @@ import java.util.List;
 public class Order {
     public String clientName;
     public String clientEmail;
-    public List products = new ArrayList<>();
-    public List quantities = new ArrayList<>();
-    public List prices = new ArrayList<>();
+    public List<String> products = new ArrayList<>();
+    public List<Integer> quantities = new ArrayList<>();
+    public List<Double> prices = new ArrayList<>();
     public double discountRate = 0.1;
 
     public void printInvoice() {
